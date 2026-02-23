@@ -20,8 +20,8 @@ const DeploymentSuccessModal: React.FC<DeploymentSuccessModalProps> = ({
     <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 text-center">
       <div className="bg-[#05070A] border border-white/10 p-8 rounded-3xl max-w-md w-full shadow-2xl">
         {/* Green checkmark */}
-        <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="text-green-500" size={40} />
+        <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="text-blue-500" size={40} />
         </div>
 
         {/* Heading */}
@@ -33,7 +33,7 @@ const DeploymentSuccessModal: React.FC<DeploymentSuccessModalProps> = ({
           href={deployedUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors"
+          className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors"
         >
           View Live Site <ExternalLink size={18} />
         </a>

@@ -39,20 +39,20 @@ const DomainManager: React.FC<DomainManagerProps> = ({ site, onDomainConnected }
       <div className="bg-[#0D1117] border border-white/10 rounded-2xl p-6">
         <div className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Custom Domain</div>
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-            <Globe size={20} className="text-green-400" />
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+            <Globe size={20} className="text-blue-400" />
           </div>
           <div className="flex-1">
             <a
               href={`https://${site.customDomain}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-green-400 hover:text-green-300 font-bold transition-colors flex items-center gap-2"
+              className="text-blue-400 hover:text-blue-300 font-bold transition-colors flex items-center gap-2"
             >
               {site.customDomain} <ExternalLink size={14} />
             </a>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-green-500/30 bg-green-500/10 text-green-400">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-500/30 bg-blue-500/10 text-blue-400">
             Connected
           </span>
         </div>
@@ -153,12 +153,12 @@ const DomainManager: React.FC<DomainManagerProps> = ({ site, onDomainConnected }
           onChange={(e) => setDomainInput(sanitizeDomainInput(e.target.value))}
           onKeyDown={handleKeyDown}
           placeholder="yourbusiness"
-          className="flex-1 bg-[#05070A] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm font-medium outline-none focus:border-green-500 transition-colors"
+          className="flex-1 bg-[#05070A] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm font-medium outline-none focus:border-blue-500 transition-colors"
         />
         <select
           value={selectedTld}
           onChange={(e) => setSelectedTld(e.target.value)}
-          className="bg-[#05070A] border border-white/10 rounded-xl px-3 py-3 text-white text-sm font-medium outline-none focus:border-green-500 transition-colors appearance-none cursor-pointer"
+          className="bg-[#05070A] border border-white/10 rounded-xl px-3 py-3 text-white text-sm font-medium outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
         >
           {TLD_OPTIONS.map(tld => (
             <option key={tld} value={tld}>{tld}</option>
@@ -178,14 +178,14 @@ const DomainManager: React.FC<DomainManagerProps> = ({ site, onDomainConnected }
       {searchResult && (
         <div className={`rounded-xl p-5 border ${
           searchResult.available
-            ? 'border-green-500/30 bg-green-500/5'
+            ? 'border-blue-500/30 bg-blue-500/5'
             : 'border-red-500/30 bg-red-500/5'
         }`}>
           {searchResult.available ? (
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <CheckCircle size={20} className="text-green-400" />
-                <span className="text-green-400 font-bold">{searchResult.domain} is available!</span>
+                <CheckCircle size={20} className="text-blue-400" />
+                <span className="text-blue-400 font-bold">{searchResult.domain} is available!</span>
               </div>
               {searchResult.gbpPrice && (
                 <div className="space-y-1">
@@ -202,7 +202,7 @@ const DomainManager: React.FC<DomainManagerProps> = ({ site, onDomainConnected }
               <button
                 onClick={handleBuyDomain}
                 disabled={isPurchasing}
-                className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
               >
                 {isPurchasing && <Loader2 size={16} className="animate-spin" />}
                 Buy Domain {searchResult.gbpPrice ? `— £${searchResult.gbpPrice.toFixed(2)}` : ''}

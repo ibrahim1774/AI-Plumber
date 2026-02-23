@@ -60,7 +60,7 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <Zap size={18} className="text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight">PrimeHub AI</span>
@@ -72,7 +72,7 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-2 hover:bg-white/5 px-3 py-2 rounded-xl transition-colors"
             >
-              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-sm font-bold">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
                 {userInitial}
               </div>
               <span className="hidden md:inline text-sm font-medium text-gray-300">
@@ -145,8 +145,8 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
                       {site.data.contact.companyName}
                     </h2>
                     {isLive ? (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-green-500/30 bg-green-500/10 text-green-400">
-                        <span className="w-2 h-2 rounded-full bg-green-400"></span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-500/30 bg-blue-500/10 text-blue-400">
+                        <span className="w-2 h-2 rounded-full bg-blue-400"></span>
                         Live
                       </span>
                     ) : (
@@ -163,7 +163,7 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
                       href={site.deployedUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
                     >
                       {site.deployedUrl} <ExternalLink size={14} />
                     </a>
@@ -213,7 +213,7 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
           <div className="bg-[#0D1117] border border-white/10 rounded-xl p-6">
             <div className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Site Status</div>
             <div className="flex items-center gap-3">
-              <CircleDot size={20} className={isLive ? 'text-green-400' : 'text-yellow-400'} />
+              <CircleDot size={20} className={isLive ? 'text-blue-400' : 'text-yellow-400'} />
               <span className="text-lg font-bold">{isLive ? 'Live' : 'Draft'}</span>
             </div>
           </div>
@@ -224,7 +224,7 @@ const Dashboard: React.FC<DashboardProps> = ({ site, onEditSite, onSignOut, onSi
             <div className="text-sm text-gray-300 mb-2">Questions / Support / Cancellations</div>
             <a
               href="mailto:ibrahim3709@gmail.com"
-              className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
             >
               <Mail size={14} /> ibrahim3709@gmail.com
             </a>

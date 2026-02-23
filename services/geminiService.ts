@@ -25,10 +25,10 @@ export const generateSiteContent = async (inputs: GeneratorInputs): Promise<Gene
       .replace("{location}", inputs.location)
       .replace("{phone}", inputs.phone);
 
-    const imagePromptHero = `Wide establishing shot of a professional landscaping crew working on a beautiful residential lawn and garden in ${inputs.location}. Lush green grass, manicured hedges, professional uniforms, golden hour lighting, 8k resolution. No text.`;
-    const imagePromptValue = `Action shot of a landscaping professional planting flowers in a garden bed. Close-up on expert hands working with soil, natural sunlight, vibrant green plants, high quality. No text.`;
+    const imagePromptHero = `Wide establishing shot of a professional plumber working on residential plumbing in a modern home in ${inputs.location}. Clean uniform, professional tools, copper pipes, modern fixtures, bright well-lit bathroom or kitchen, 8k resolution. No text.`;
+    const imagePromptValue = `Action shot of a professional plumber fixing pipes under a kitchen sink. Close-up on expert hands working with wrench and copper fittings, clean workspace, natural lighting, high quality. No text.`;
 
-    const imagePromptWho = `Beautiful suburban home with a freshly landscaped front yard, green lawn, trimmed bushes, and happy homeowner admiring the work by ${inputs.companyName} in ${inputs.location}. Warm natural lighting. No text.`;
+    const imagePromptWho = `Beautiful modern home with quality plumbing fixtures, updated bathroom with chrome faucets and clean pipes, and a satisfied homeowner greeting the plumber from ${inputs.companyName} in ${inputs.location}. Warm natural lighting. No text.`;
 
     // 2. Generate Text and Images in Parallel
     const [textResponse, heroImgRes, valueImgRes, whoImgRes] = await Promise.all([
