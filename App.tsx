@@ -5,6 +5,7 @@ import SiteRenderer from './components/SiteRenderer.js';
 import LoadingIndicator from './components/LoadingIndicator.js';
 import AuthModal from './components/AuthModal.js';
 import DeploymentSuccessModal from './components/DeploymentSuccessModal.js';
+import PrePaymentBanner from './components/PrePaymentBanner.js';
 import Dashboard from './components/Dashboard.js';
 import { generateSiteContent } from './services/geminiService.js';
 import { saveSite, loadUserSite, migrateSiteToUser } from './services/siteService.js';
@@ -551,7 +552,7 @@ const App: React.FC = () => {
             </div>
           )}
 
-          <main className={`bg-white ${isPostPayment ? '' : 'pb-[340px] md:pb-52'}`}>
+          <main className={`bg-white ${isPostPayment ? '' : 'pb-40 md:pb-32'}`}>
             <SiteRenderer
               data={activeSite.data}
               isEditMode={true}
@@ -559,36 +560,13 @@ const App: React.FC = () => {
             />
           </main>
 
-          {/* Pre-payment bottom bar */}
+          {/* Pre-payment bottom banner */}
           {!isPostPayment && (
-            <div className="fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-gray-100 p-4 md:p-5 shadow-[0_-8px_20px_rgba(0,0,0,0.05)]">
-              <div className="max-w-3xl mx-auto space-y-4">
-                {/* HOW IT WORKS + steps */}
-                <div className="text-center">
-                  <p className="text-black font-bold text-sm uppercase tracking-[0.2em] mb-2">How It Works</p>
-                  <div className="flex flex-col md:flex-row md:justify-center md:gap-6 gap-1">
-                    <span className="text-black font-bold text-sm">1. Edit your text & images above</span>
-                    <span className="text-black font-bold text-sm">2. Click deploy when ready</span>
-                    <span className="text-black font-bold text-sm">3. Your site goes live instantly</span>
-                  </div>
-                </div>
-
-                {/* Pricing + deploy button */}
-                <div className="flex flex-col md:flex-row items-center justify-center gap-3">
-                  <p className="text-black font-bold text-sm uppercase tracking-tight text-center">
-                    PAY ONLY $10/MONTH WEBSITE HOSTING TO HAVE YOUR CUSTOM SITE LIVE & ACTIVE
-                  </p>
-                  <button
-                    onClick={handleDeploy}
-                    disabled={deploymentStatus === 'deploying'}
-                    className="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:bg-blue-700 active:scale-[0.95] transition-all uppercase tracking-wider disabled:opacity-50"
-                  >
-                    {deploymentStatus === 'deploying' ? <Loader2 className="animate-spin" size={18} /> : <Rocket size={18} />}
-                    Deploy Website
-                  </button>
-                </div>
-              </div>
-            </div>
+            <PrePaymentBanner
+              onDeploy={handleDeploy}
+              isDeploying={deploymentStatus === 'deploying'}
+              industry={activeSite?.formInputs?.industry}
+            />
           )}
 
           {/* Deployment Status Overlay (deploying / error states) */}
