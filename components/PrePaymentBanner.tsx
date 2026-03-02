@@ -72,7 +72,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowHowItWorks(true)}
-              className="px-4 py-2.5 rounded-xl text-sm font-bold text-white border border-white/20 hover:bg-white/10 transition-colors uppercase tracking-wider"
+              className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white border border-white/20 hover:bg-white/10 transition-colors uppercase tracking-wider text-center"
             >
               How It Works
             </button>
@@ -80,17 +80,17 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             <button
               onClick={onDeploy}
               disabled={isDeploying}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
               style={{
                 background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
               }}
             >
               {isDeploying ? (
-                <Loader2 className="animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={14} />
               ) : (
-                <Rocket size={18} />
+                <Rocket size={14} />
               )}
-              Deploy My Site — $10/mo
+              Deploy — $10/mo
             </button>
           </div>
         </div>

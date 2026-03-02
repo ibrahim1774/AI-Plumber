@@ -69,6 +69,7 @@ const App: React.FC = () => {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const saveTimeoutRef = useRef<any>(null);
   const [isRestoring, setIsRestoring] = useState(true);
+  const generationFailedRef = useRef(false);
 
   // ─── Persist view state to sessionStorage ───
   const persistView = useCallback((view: AppView, siteId?: string) => {
@@ -170,6 +171,30 @@ const App: React.FC = () => {
     };
 
     restore();
+  }, []);
+
+  // ─── Auto-retry generation when returning from background ───
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && generationFailedRef.current) {
+        generationFailedRef.current = false;
+        const savedInputs = sessionStorage.getItem('pendingFormInputs');
+        if (savedInputs) {
+          try {
+            const inputs: GeneratorInputs = JSON.parse(savedInputs);
+            handleGenerate(inputs);
+          } catch {
+            setIsGenerating(false);
+            persistView('generator');
+          }
+        } else {
+          setIsGenerating(false);
+          persistView('generator');
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
   // Deployment state
@@ -408,6 +433,12 @@ const App: React.FC = () => {
       await saveSiteInstance(instance);
     } catch (error: any) {
       console.error("Generation failed:", error);
+      // If page was backgrounded (user switched apps), don't navigate away — retry on return
+      const pendingInputs = sessionStorage.getItem('pendingFormInputs');
+      if (document.hidden && pendingInputs) {
+        generationFailedRef.current = true;
+        return; // Stay on loading screen, will auto-retry when page becomes visible
+      }
       if (error.message?.includes("Requested entity was not found") && window.aistudio) {
         alert("The selected model is not available with this API key. Please select a different key.");
         await window.aistudio.openSelectKey();
@@ -416,7 +447,9 @@ const App: React.FC = () => {
       }
       persistView('generator');
     } finally {
-      setIsGenerating(false);
+      if (!generationFailedRef.current) {
+        setIsGenerating(false);
+      }
     }
   };
 
