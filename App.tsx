@@ -9,7 +9,7 @@ import PrePaymentBanner from './components/PrePaymentBanner.js';
 import Dashboard from './components/Dashboard.js';
 import { generateSiteContent } from './services/geminiService.js';
 import { saveSite, loadUserSite, migrateSiteToUser } from './services/siteService.js';
-import { saveSiteInstance, getAllSites } from './services/storageService.js';
+import { saveSiteInstance, getSiteInstance, getAllSites } from './services/storageService.js';
 import { deploySite } from './services/deploymentService.js';
 import { useAuth } from './contexts/AuthContext.js';
 import { GeneratorInputs, GeneratedSiteData, SiteInstance, AppView } from './types.js';
@@ -68,6 +68,109 @@ const App: React.FC = () => {
   const [formInputs, setFormInputs] = useState<GeneratorInputs | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const saveTimeoutRef = useRef<any>(null);
+  const [isRestoring, setIsRestoring] = useState(true);
+
+  // ─── Persist view state to sessionStorage ───
+  const persistView = useCallback((view: AppView, siteId?: string) => {
+    setCurrentView(view);
+    sessionStorage.setItem('appView', view);
+    if (siteId) {
+      sessionStorage.setItem('activeSiteId', siteId);
+    } else if (view === 'generator') {
+      sessionStorage.removeItem('activeSiteId');
+      sessionStorage.removeItem('pendingFormInputs');
+    }
+  }, []);
+
+  // ─── Restore view + site from sessionStorage on mount ───
+  useEffect(() => {
+    const restore = async () => {
+      try {
+        const savedView = sessionStorage.getItem('appView') as AppView | null;
+        const savedSiteId = sessionStorage.getItem('activeSiteId');
+        const savedFormInputs = sessionStorage.getItem('pendingFormInputs');
+
+        if (savedView === 'editor' && savedSiteId) {
+          const site = await getSiteInstance(savedSiteId);
+          if (site) {
+            setActiveSite(site);
+            setCurrentView('editor');
+            if (site.formInputs) setFormInputs(site.formInputs);
+          } else if (savedFormInputs) {
+            // Site not in IndexedDB yet (was mid-generation), restart generation
+            const inputs: GeneratorInputs = JSON.parse(savedFormInputs);
+            setFormInputs(inputs);
+            setCurrentView('editor');
+            setIsGenerating(true);
+            sessionStorage.removeItem('pendingFormInputs');
+            try {
+              const data = await generateSiteContent(inputs);
+              const instance: SiteInstance = {
+                id: Math.random().toString(36).substring(7),
+                data: { ...data, gallery: { title: 'Our Work', subtitle: 'See our latest projects', images: [null, null, null] } },
+                lastSaved: Date.now(),
+                formInputs: inputs,
+                deploymentStatus: 'draft',
+              };
+              setActiveSite(instance);
+              setFormInputs(inputs);
+              sessionStorage.setItem('activeSiteId', instance.id);
+              await saveSiteInstance(instance);
+            } catch {
+              setCurrentView('generator');
+              sessionStorage.removeItem('appView');
+              sessionStorage.removeItem('activeSiteId');
+            } finally {
+              setIsGenerating(false);
+            }
+          } else {
+            sessionStorage.removeItem('appView');
+            sessionStorage.removeItem('activeSiteId');
+          }
+        } else if (savedView === 'editor' && !savedSiteId) {
+          // Editor view but no site ID — check if we have pending form inputs
+          if (savedFormInputs) {
+            const inputs: GeneratorInputs = JSON.parse(savedFormInputs);
+            setFormInputs(inputs);
+            setCurrentView('editor');
+            setIsGenerating(true);
+            sessionStorage.removeItem('pendingFormInputs');
+            try {
+              const data = await generateSiteContent(inputs);
+              const instance: SiteInstance = {
+                id: Math.random().toString(36).substring(7),
+                data: { ...data, gallery: { title: 'Our Work', subtitle: 'See our latest projects', images: [null, null, null] } },
+                lastSaved: Date.now(),
+                formInputs: inputs,
+                deploymentStatus: 'draft',
+              };
+              setActiveSite(instance);
+              setFormInputs(inputs);
+              sessionStorage.setItem('activeSiteId', instance.id);
+              await saveSiteInstance(instance);
+            } catch {
+              setCurrentView('generator');
+              sessionStorage.removeItem('appView');
+            } finally {
+              setIsGenerating(false);
+            }
+          } else {
+            sessionStorage.removeItem('appView');
+          }
+        }
+        // For 'dashboard', let the auth useEffect handle it
+      } catch {
+        // On any error, fall back to generator
+        sessionStorage.removeItem('appView');
+        sessionStorage.removeItem('activeSiteId');
+        sessionStorage.removeItem('pendingFormInputs');
+      } finally {
+        setIsRestoring(false);
+      }
+    };
+
+    restore();
+  }, []);
 
   // Deployment state
   const [deploymentStatus, setDeploymentStatus] = useState<'idle' | 'deploying' | 'success' | 'error'>('idle');
@@ -81,13 +184,13 @@ const App: React.FC = () => {
 
   // ─── On authenticated load, navigate to dashboard and load site ───
   useEffect(() => {
-    if (!authLoading && isAuthenticated && user && currentView === 'generator') {
-      setCurrentView('dashboard');
+    if (!authLoading && isAuthenticated && user && currentView === 'generator' && !isRestoring) {
+      persistView('dashboard');
       loadUserSite(user.id).then(site => {
         if (site) setActiveSite(site);
       });
     }
-  }, [authLoading, isAuthenticated, user]);
+  }, [authLoading, isAuthenticated, user, isRestoring]);
 
   // ─── Handle Payment Success & Auto-Deploy ───
   useEffect(() => {
@@ -121,7 +224,7 @@ const App: React.FC = () => {
 
       setDeploymentStatus('deploying');
       setDeploymentMessage('Payment Verified! Starting automated deployment...');
-      setCurrentView('editor');
+      persistView('editor');
 
       try {
         // Load the latest site from storage
@@ -133,6 +236,7 @@ const App: React.FC = () => {
 
         const latestSite = sites.sort((a, b) => b.lastSaved - a.lastSaved)[0];
         setActiveSite(latestSite);
+        sessionStorage.setItem('activeSiteId', latestSite.id);
 
         // Deploy it
         const { generateSlug } = await import('./services/urlService.js');
@@ -223,20 +327,20 @@ const App: React.FC = () => {
 
   // ─── Navigation helpers ───
   const navigateToDashboard = useCallback(() => {
-    setCurrentView('dashboard');
-  }, []);
+    persistView('dashboard');
+  }, [persistView]);
 
   const navigateToEditor = useCallback(() => {
     if (activeSite) {
-      setCurrentView('editor');
+      persistView('editor', activeSite.id);
     }
-  }, [activeSite]);
+  }, [activeSite, persistView]);
 
   const navigateToGenerator = useCallback(() => {
     setActiveSite(null);
     setFormInputs(null);
-    setCurrentView('generator');
-  }, []);
+    persistView('generator');
+  }, [persistView]);
 
   // ─── Auth handlers ───
   const handleAuthSuccess = useCallback(async (mode: 'signin' | 'signup') => {
@@ -261,15 +365,15 @@ const App: React.FC = () => {
       }
     }
 
-    setCurrentView('dashboard');
-  }, [activeSite]);
+    persistView('dashboard');
+  }, [activeSite, persistView]);
 
   const handleSignOut = useCallback(async () => {
     await signOut();
     setActiveSite(null);
     setFormInputs(null);
-    setCurrentView('generator');
-  }, [signOut]);
+    persistView('generator');
+  }, [signOut, persistView]);
 
   // ─── Generation handler ───
   const handleGenerate = async (newInputs: GeneratorInputs) => {
@@ -281,7 +385,8 @@ const App: React.FC = () => {
     }
 
     setIsGenerating(true);
-    setCurrentView('editor');
+    persistView('editor');
+    sessionStorage.setItem('pendingFormInputs', JSON.stringify(newInputs));
     try {
       // Capture lead data (fire and forget)
       import('./services/leadService.js').then(({ captureLead }) => {
@@ -298,6 +403,8 @@ const App: React.FC = () => {
       };
       setActiveSite(instance);
       setFormInputs(newInputs);
+      sessionStorage.setItem('activeSiteId', instance.id);
+      sessionStorage.removeItem('pendingFormInputs');
       await saveSiteInstance(instance);
     } catch (error: any) {
       console.error("Generation failed:", error);
@@ -307,7 +414,7 @@ const App: React.FC = () => {
       } else {
         alert(`Generation Error: ${error.message || "Please check your API key and try again."}`);
       }
-      setCurrentView('generator');
+      persistView('generator');
     } finally {
       setIsGenerating(false);
     }
@@ -449,17 +556,17 @@ const App: React.FC = () => {
   // ─── Back from editor ───
   const handleBackFromEditor = useCallback(() => {
     if (isAuthenticated) {
-      setCurrentView('dashboard');
+      persistView('dashboard');
     } else {
       if (confirm("Go back to generator? Your current site is saved locally.")) {
         setActiveSite(null);
-        setCurrentView('generator');
+        persistView('generator');
       }
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, persistView]);
 
   // ─── AppReady guard ───
-  if (authLoading) {
+  if (authLoading || isRestoring) {
     return (
       <div className="min-h-screen bg-[#05070A] flex items-center justify-center" style={{ fontFamily: '"Avenir Light", Avenir, sans-serif' }}>
         <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
