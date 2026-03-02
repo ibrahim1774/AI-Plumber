@@ -60,8 +60,8 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
           {/* Pulsing dot + info text */}
           <div className="flex items-start gap-3 mb-4 pr-8">
             <div className="relative mt-1.5 shrink-0">
-              <div className="w-2.5 h-2.5 bg-green-500 rounded-full" />
-              <div className="absolute inset-0 w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
+              <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
+              <div className="absolute inset-0 w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping" />
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Just pay for hosting—it's <span className="text-white font-bold">$10/month</span>. You can make an account after deploying the site and change the text and images as well.
@@ -80,9 +80,9 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             <button
               onClick={onDeploy}
               disabled={isDeploying}
-              className="flex-1 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
+              className="flex-1 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
               style={{
-                background: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)',
+                background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
               }}
             >
               {isDeploying ? (
@@ -103,7 +103,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
           onClick={() => setShowHowItWorks(false)}
         >
           <div
-            className="relative max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl animate-[modalIn_0.3s_ease-out]"
+            className="relative max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 p-5 md:p-6 shadow-2xl animate-[modalIn_0.3s_ease-out]"
             style={{
               background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
               fontFamily: '"DM Sans", sans-serif',
@@ -119,40 +119,40 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </button>
 
             {/* Badge */}
-            <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center gap-2 mb-3">
               <div className="relative">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                <div className="absolute inset-0 w-2 h-2 bg-blue-500 rounded-full animate-ping" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-green-400">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400">
                 How It Works
               </span>
             </div>
 
             {/* Headline */}
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
               Your Fully Custom Website —{' '}
-              <span style={{ fontFamily: '"Instrument Serif", serif' }} className="text-green-400">
+              <span style={{ fontFamily: '"Instrument Serif", serif' }} className="text-blue-400">
                 Just $10/mo
               </span>
             </h2>
 
             {/* Subtitle */}
-            <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+            <p className="text-gray-400 text-sm mb-4 leading-relaxed">
               Deploy your site and get full account access — edit text, swap images, and update anything at any time.
             </p>
 
             {/* Step Cards */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               {/* Step 01 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <div className="flex items-start gap-4">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">01</span>
                   <div>
                     <h3 className="text-white font-bold text-sm mb-1">
                       <span className="mr-2">🎨</span>Professional & Modern Website
                     </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-sm leading-snug">
                       A clean, modern website built for your {displayIndustry} business — fully customizable so you can get up and running fast.
                     </p>
                   </div>
@@ -160,14 +160,14 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
               </div>
 
               {/* Step 02 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <div className="flex items-start gap-4">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">02</span>
                   <div>
                     <h3 className="text-white font-bold text-sm mb-1">
                       <span className="mr-2">🔧</span>Account Access
                     </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-sm leading-snug">
                       After deploying, create an account to swap images, change text, and update your page anytime.
                     </p>
                   </div>
@@ -175,14 +175,14 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
               </div>
 
               {/* Step 03 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <div className="flex items-start gap-4">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">03</span>
                   <div>
                     <h3 className="text-white font-bold text-sm mb-1">
                       <span className="mr-2">💰</span>Save Time & Money
                     </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-sm leading-snug">
                       No need to hire a developer or learn to code. Just pay a small monthly hosting fee — everything else is handled.
                     </p>
                   </div>
@@ -191,7 +191,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </div>
 
             {/* Price Box */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mt-6">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-3">
               <p className="text-white font-bold text-lg mb-2" style={{ fontFamily: '"Instrument Serif", serif' }}>
                 $10/month —{' '}
                 <span className="text-gray-400 font-normal text-sm" style={{ fontFamily: '"DM Sans", sans-serif' }}>
@@ -217,9 +217,9 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
                 onDeploy();
               }}
               disabled={isDeploying}
-              className="w-full mt-6 py-3.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
+              className="w-full mt-3 py-3.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
               style={{
-                background: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)',
+                background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
               }}
             >
               {isDeploying ? (
