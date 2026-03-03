@@ -103,7 +103,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
           onClick={() => setShowHowItWorks(false)}
         >
           <div
-            className="relative max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 p-5 md:p-6 shadow-2xl animate-[modalIn_0.3s_ease-out]"
+            className="relative max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 p-4 md:p-6 shadow-2xl animate-[modalIn_0.3s_ease-out]"
             style={{
               background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
               fontFamily: '"DM Sans", sans-serif',
@@ -119,7 +119,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </button>
 
             {/* Badge */}
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2">
               <div className="relative">
                 <div className="w-2 h-2 bg-blue-500 rounded-full" />
                 <div className="absolute inset-0 w-2 h-2 bg-blue-500 rounded-full animate-ping" />
@@ -130,7 +130,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </div>
 
             {/* Headline */}
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-1 leading-tight">
               Your Fully Custom Website —{' '}
               <span style={{ fontFamily: '"Instrument Serif", serif' }} className="text-blue-400">
                 Just $10/mo
@@ -138,52 +138,52 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </h2>
 
             {/* Subtitle */}
-            <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+            <p className="text-gray-400 text-sm mb-3 leading-relaxed">
               Deploy your site and get full account access — edit text, swap images, and update anything at any time.
             </p>
 
             {/* Step Cards */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {/* Step 01 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="flex items-start gap-4">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <div className="flex items-start gap-3">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">01</span>
                   <div>
-                    <h3 className="text-white font-bold text-sm mb-1">
-                      <span className="mr-2">🎨</span>Professional & Modern Website
+                    <h3 className="text-white font-bold text-sm">
+                      <span className="mr-1.5">🎨</span>Professional & Modern Website
                     </h3>
-                    <p className="text-gray-400 text-sm leading-snug">
-                      A clean, modern website built for your {displayIndustry} business — fully customizable so you can get up and running fast.
+                    <p className="text-gray-400 text-xs leading-snug">
+                      A clean, modern website built for your {displayIndustry} business — fully customizable.
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Step 02 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="flex items-start gap-4">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <div className="flex items-start gap-3">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">02</span>
                   <div>
-                    <h3 className="text-white font-bold text-sm mb-1">
-                      <span className="mr-2">🔧</span>Account Access
+                    <h3 className="text-white font-bold text-sm">
+                      <span className="mr-1.5">🔧</span>Account Access
                     </h3>
-                    <p className="text-gray-400 text-sm leading-snug">
-                      After deploying, create an account to swap images, change text, and update your page anytime.
+                    <p className="text-gray-400 text-xs leading-snug">
+                      Create an account to swap images, change text, and update your page anytime.
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Step 03 */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="flex items-start gap-4">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <div className="flex items-start gap-3">
                   <span className="text-xs font-bold text-gray-500 mt-0.5">03</span>
                   <div>
-                    <h3 className="text-white font-bold text-sm mb-1">
-                      <span className="mr-2">💰</span>Save Time & Money
+                    <h3 className="text-white font-bold text-sm">
+                      <span className="mr-1.5">💰</span>Save Time & Money
                     </h3>
-                    <p className="text-gray-400 text-sm leading-snug">
-                      No need to hire a developer or learn to code. Just pay a small monthly hosting fee — everything else is handled.
+                    <p className="text-gray-400 text-xs leading-snug">
+                      No developer needed. Just a small monthly hosting fee — everything else is handled.
                     </p>
                   </div>
                 </div>
@@ -191,23 +191,20 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </div>
 
             {/* Price Box */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-3">
-              <p className="text-white font-bold text-lg mb-2" style={{ fontFamily: '"Instrument Serif", serif' }}>
-                $10/month —{' '}
-                <span className="text-gray-400 font-normal text-sm" style={{ fontFamily: '"DM Sans", sans-serif' }}>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-2 px-3 mt-1.5 flex items-center justify-between gap-2">
+              <p className="text-white font-bold text-sm shrink-0" style={{ fontFamily: '"Instrument Serif", serif' }}>
+                $10/mo —{' '}
+                <span className="text-gray-400 font-normal text-xs" style={{ fontFamily: '"DM Sans", sans-serif' }}>
                   hosting only
                 </span>
               </p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400 mb-3">
-                <span>No setup fees</span>
+              <div className="flex gap-x-1.5 text-[10px] text-gray-500">
+                <span>No fees</span>
                 <span>•</span>
                 <span>No contracts</span>
                 <span>•</span>
                 <span>Cancel anytime</span>
               </div>
-              <p className="text-gray-500 text-xs leading-relaxed">
-                Just a small hosting fee to keep your site live — site building & deployment included.
-              </p>
             </div>
 
             {/* Deploy CTA */}
@@ -217,7 +214,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
                 onDeploy();
               }}
               disabled={isDeploying}
-              className="w-full mt-3 py-3.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
+              className="w-full mt-2 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
               style={{
                 background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
               }}
