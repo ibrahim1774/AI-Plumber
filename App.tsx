@@ -268,7 +268,7 @@ const App: React.FC = () => {
         const projectName = generateSlug(latestSite.data.contact.companyName);
 
         setDeploymentMessage('Building and deploying your site to Vercel...');
-        await deploySite(latestSite.data, projectName);
+        const deployResult = await deploySite(latestSite.data, projectName);
 
         // 10-second countdown
         for (let i = 10; i > 0; i--) {
@@ -276,7 +276,7 @@ const App: React.FC = () => {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
 
-        const finalUrl = `https://${projectName}.vercel.app`;
+        const finalUrl = deployResult?.url || `https://${projectName}.vercel.app`;
 
         // Update site with deployment info
         const deployedSite: SiteInstance = {
@@ -555,7 +555,7 @@ const App: React.FC = () => {
 
       // Phase 3: Deploy
       setDeploymentMessage('Building and deploying your site...');
-      await deploySite(activeSite.data, projectName);
+      const deployResult = await deploySite(activeSite.data, projectName);
 
       // Phase 4: 3-second countdown
       for (let i = 3; i > 0; i--) {
@@ -564,7 +564,7 @@ const App: React.FC = () => {
       }
 
       // Phase 5: Success
-      const finalUrl = `https://${projectName}.vercel.app`;
+      const finalUrl = deployResult?.url || `https://${projectName}.vercel.app`;
       setDeploymentStatus('success');
       setDeploymentUrl(finalUrl);
       setDeploymentMessage('Changes published successfully!');
