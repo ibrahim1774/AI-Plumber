@@ -58,17 +58,10 @@ export class VercelDeployer {
             );
 
             const deploymentUrl = response.data.url;
-            const aliases = response.data.alias || [];
             const vercelProjectName = response.data.name || projectName;
 
-            // Aggressively prioritize the clean domain
-            let finalUrl = `${vercelProjectName}.vercel.app`;
-
-            if (aliases.length > 0) {
-                finalUrl = aliases[0];
-            } else if (!vercelProjectName && deploymentUrl) {
-                finalUrl = deploymentUrl;
-            }
+            // Always use the clean project domain, never the deployment hash URL
+            const finalUrl = `${vercelProjectName}.vercel.app`;
 
             console.log(`[Deploy] Vercel URL: ${deploymentUrl}`);
             console.log(`[Deploy] Clean URL: ${finalUrl}`);
