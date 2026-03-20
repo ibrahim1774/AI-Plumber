@@ -20,10 +20,10 @@ export const generateSiteContent = async (inputs: GeneratorInputs): Promise<Gene
   try {
     // 1. Prepare Prompts
     const textPrompt = SYSTEM_PROMPT
-      .replace("{industry}", inputs.industry)
-      .replace("{companyName}", inputs.companyName)
-      .replace("{location}", inputs.location)
-      .replace("{phone}", inputs.phone);
+      .replaceAll("{industry}", inputs.industry)
+      .replaceAll("{companyName}", inputs.companyName)
+      .replaceAll("{location}", inputs.location)
+      .replaceAll("{phone}", inputs.phone);
 
     const imagePromptHero = `Wide establishing shot of a professional plumber working on residential plumbing in a modern home in ${inputs.location}. Clean uniform, professional tools, copper pipes, modern fixtures, bright well-lit bathroom or kitchen, 8k resolution. No text.`;
     const imagePromptValue = `Action shot of a professional plumber fixing pipes under a kitchen sink. Close-up on expert hands working with wrench and copper fittings, clean workspace, natural lighting, high quality. No text.`;
