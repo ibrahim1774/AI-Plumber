@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, ArrowRight, Rocket, Loader2 } from 'lucide-react';
 
 interface PrePaymentBannerProps {
-  onDeploy: () => void;
+  onDeploy: (plan: 'monthly' | 'yearly') => void;
   isDeploying: boolean;
   industry?: string;
 }
@@ -11,6 +11,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
   const [isDismissed, setIsDismissed] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const [pricingPlan, setPricingPlan] = useState<'monthly' | 'yearly'>('monthly');
 
   const displayIndustry = industry || 'plumbing';
 
@@ -58,14 +59,39 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
           </button>
 
           {/* Pulsing dot + info text */}
-          <div className="flex items-start gap-3 mb-4 pr-8">
+          <div className="flex items-start gap-3 mb-3 pr-8">
             <div className="relative mt-1.5 shrink-0">
               <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
               <div className="absolute inset-0 w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping" />
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Just pay for hosting—it's <span className="text-white font-bold">$10/month</span>. You can make an account after publishing the site and change the text and images as well.
+              Just pay for hosting—it's <span className="text-white font-bold">{pricingPlan === 'yearly' ? '$49/year' : '$10/month'}</span>. You can make an account after publishing the site and change the text and images as well.
             </p>
+          </div>
+
+          {/* Monthly / Yearly Toggle */}
+          <div className="flex items-center justify-center gap-1 mb-3 bg-white/5 rounded-xl p-1 border border-white/10">
+            <button
+              onClick={() => setPricingPlan('monthly')}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                pricingPlan === 'monthly'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setPricingPlan('yearly')}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                pricingPlan === 'yearly'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Yearly
+              <span className="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full font-bold">Save 59%</span>
+            </button>
           </div>
 
           {/* Buttons */}
@@ -78,7 +104,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             </button>
 
             <button
-              onClick={onDeploy}
+              onClick={() => onDeploy(pricingPlan)}
               disabled={isDeploying}
               className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
               style={{
@@ -90,7 +116,11 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
               ) : (
                 <Rocket size={14} />
               )}
-              Publish — $10/mo
+              {pricingPlan === 'yearly' ? (
+                <>Publish — <span className="line-through opacity-50 mr-1">$120/yr</span> $49/yr</>
+              ) : (
+                <>Publish — $10/mo</>
+              )}
             </button>
           </div>
         </div>
@@ -133,7 +163,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             <h2 className="text-xl md:text-2xl font-bold text-white mb-1 leading-tight">
               Your Fully Custom Website —{' '}
               <span style={{ fontFamily: '"Instrument Serif", serif' }} className="text-blue-400">
-                Just $10/mo
+                {pricingPlan === 'yearly' ? 'Just $49/yr' : 'Just $10/mo'}
               </span>
             </h2>
 
@@ -193,7 +223,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             {/* Price Box */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-2 px-3 mt-1.5 flex items-center justify-between gap-2">
               <p className="text-white font-bold text-sm shrink-0" style={{ fontFamily: '"Instrument Serif", serif' }}>
-                $10/mo —{' '}
+                {pricingPlan === 'yearly' ? '$49/yr' : '$10/mo'} —{' '}
                 <span className="text-gray-400 font-normal text-xs" style={{ fontFamily: '"DM Sans", sans-serif' }}>
                   hosting only
                 </span>
@@ -211,7 +241,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
             <button
               onClick={() => {
                 setShowHowItWorks(false);
-                onDeploy();
+                onDeploy(pricingPlan);
               }}
               disabled={isDeploying}
               className="w-full mt-2 py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:opacity-90 active:scale-[0.97] transition-all uppercase tracking-wider disabled:opacity-50"
@@ -223,7 +253,7 @@ const PrePaymentBanner: React.FC<PrePaymentBannerProps> = ({ onDeploy, isDeployi
                 <Loader2 className="animate-spin" size={18} />
               ) : (
                 <>
-                  Publish My Website — $10/mo
+                  Publish My Website — {pricingPlan === 'yearly' ? '$49/yr' : '$10/mo'}
                   <ArrowRight size={18} />
                 </>
               )}
