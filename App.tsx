@@ -671,7 +671,7 @@ const App: React.FC = () => {
                 >
                   <ChevronLeft size={20} />
                 </button>
-                <MarqueeText text="Tap to edit text & images, then deploy below." />
+                <MarqueeText text="Tap to edit text & images, then publish below." />
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -720,7 +720,7 @@ const App: React.FC = () => {
                       <Rocket className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500" size={32} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-2">Deploying Site</h3>
+                      <h3 className="text-xl font-bold text-white mb-2">Publishing Site</h3>
                       <p className="text-gray-400">{deploymentMessage}</p>
                     </div>
                   </div>
@@ -732,7 +732,7 @@ const App: React.FC = () => {
                       <span className="text-red-500 text-4xl font-bold">!</span>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-2">Deployment Failed</h3>
+                      <h3 className="text-xl font-bold text-white mb-2">Publishing Failed</h3>
                       <p className="text-red-400 mb-6">{deploymentMessage}</p>
                       <button
                         onClick={() => setDeploymentStatus('idle')}
