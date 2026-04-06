@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                                 ? `Yearly hosting and maintenance for your custom generated website.`
                                 : `Monthly hosting and maintenance for your custom generated website.`,
                         },
-                        unit_amount: isYearly ? 4900 : 1000,
+                        unit_amount: isYearly ? 7200 : 1000,
                         recurring: {
                             interval: isYearly ? 'year' : 'month',
                         },
