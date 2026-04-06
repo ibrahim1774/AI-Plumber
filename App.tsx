@@ -202,6 +202,26 @@ const App: React.FC = () => {
   const [deploymentUrl, setDeploymentUrl] = useState<string>('');
   const [deploymentMessage, setDeploymentMessage] = useState<string>('');
 
+  // ─── Reset deploying state when returning from Stripe via browser back (bfcache) ───
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted && !window.location.search.includes('payment=success')) {
+        setDeploymentStatus('idle');
+        setDeploymentMessage('');
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
+
+  // ─── Clean up cancelled payment URL params ───
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('domain_payment') === 'cancelled') {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   // Modal state
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signup');
